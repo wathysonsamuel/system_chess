@@ -1,6 +1,7 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
 import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
@@ -24,6 +25,30 @@ public class ChessMatch {
             }
         }
         return mat;
+    }
+
+    // Executa um movimento no tabuleiro
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position source = sourcePosition.toPosition();   // origem em coordenadas da matriz
+        Position target = targetPosition.toPosition();   // destino em coordenadas da matriz
+        validateSourcePosition(source);                  // verifica se existe peça na origem
+        Piece capturedPiece = makeMove(source, target);  // executa o movimento e captura se houver
+        return (ChessPiece) capturedPiece;               // retorna a peça capturada (ou null)
+    }
+
+    // Remove da origem, captura no destino (se existir) e move a peça
+    private Piece makeMove(Position source, Position target) {
+        Piece p = board.removePiece(source);
+        Piece capturedPiece = board.removePiece(target);
+        board.placePiece(p, target);
+        return capturedPiece;
+    }
+
+    // Garante que existe peça na posição de origem
+    private void validateSourcePosition(Position position) {
+        if (!board.thereIsAPiece(position)) {
+            throw new ChessException("There is no piece on source position");
+        }
     }
 
     /* posso iniciar setup com posição de xadrez e não de matriz,  */

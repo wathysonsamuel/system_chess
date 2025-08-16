@@ -51,6 +51,19 @@ public class Board {
         piece.position = position; // atualiza a posição da peça (acesso possível porque está no mesmo pacote)
     }
 
+    public Piece removePiece(Position position) {
+        if (!positionExists(position)) {
+            throw new BoardException("Position not on the board");
+        }
+        if (piece(position) == null) {
+            return null;
+        }
+        Piece aux = piece(position);
+        aux.position = null; // a peça aux fica com a posição nula
+        pieces[position.getRow()][position.getColumn()] = null; // tirando a posição da peça na matriz
+        return aux;
+    }
+
     // Método auxiliar do metodo abaixo
     private boolean positionExists(int row, int column) {
         return row >= 0 && row < rows && column >= 0 && column < columns;
