@@ -23,9 +23,12 @@ public class Program {
                 UI.clearScreen();                                // limpa a tela
                 UI.printBoard(chessmatch.getPieces());           // mostra o tabuleiro atual
                 System.out.println();
-
                 System.out.print("Source: ");                    // pede posição de origem
                 ChessPosition source = UI.readChessPosition(sc); // lê e valida entrada
+
+                boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+                UI.clearScreen();
+                UI.printBoard(chessmatch.getPieces(), possibleMoves);
 
                 System.out.println();
                 System.out.print("Target: ");                    // pede posição de destino
